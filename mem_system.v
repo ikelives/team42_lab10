@@ -26,56 +26,59 @@ module mem_system(
     input [1:0] addy,
     output [7:0] mem
     );
-    wire [7:0] data_demux;
-    wire [7:0] store_demux;
+    wire [7:0] data_demux_a, data_demux_b, data_demux_c, data_demux_d;
+    wire store_demux_a, store_demux_b, store_demux_c, store_demux_d;
+    wire [7:0] mem0, mem1, mem2, mem3;
     
     demux demux_data(
     .in(in),
     .addy(addy),
-    .A(data_demux[0]),
-    .B(data_demux[1]),
-    .C(data_demux[2]),
-    .D(data_demux[3])
+    .A(data_demux_a),
+    .B(data_demux_b),
+    .C(data_demux_c),
+    .D(data_demux_d)
     );
     
-    demux demux_store(
+    demux1bit demux_store(
     .in(store),
     .addy(addy),
-    .A(store_demux[0]),
-    .B(store_demux[1]),
-    .C(store_demux[2]),
-    .D(store_demux[3])
+    .A(store_demux_a),
+    .B(store_demux_b),
+    .C(store_demux_c),
+    .D(store_demux_d)
     );
     
     byte_mem byte0(
-    .data(data_demux[0]),
-    .en(store_demux[0]),
-    .mem(mem[0])
+    .data(data_demux_a),
+    .en(store_demux_a),
+    .mem(mem0)
     );
     
     byte_mem byte1(
-    .data(data_demux[1]),
-    .en(store_demux[1]),
-    .mem(mem[1])
+    .data(data_demux_b),
+    .en(store_demux_b),
+    .mem(mem1)
     );
     
     byte_mem byte2(
-    .data(data_demux[2]),
-    .en(store_demux[2]),
-    .mem(mem[2])
+    .data(data_demux_c),
+    .en(store_demux_c),
+    .mem(mem2)
     );
     
     byte_mem byte3(
-    .data(data_demux[3]),
-    .en(store_demux[3]),
-    .mem(mem[3])
+    .data(data_demux_d),
+    .en(store_demux_d),
+    .mem(mem3)
     );
     
     mux multiplexer(
-    .A(mem[0]),
-    .B(mem[1]),
-    .C(mem[2]),
-    .D(mem[3])
+    .A(mem0),
+    .B(mem1),
+    .C(mem2),
+    .D(mem3),
+    .addy(addy),
+    .y(mem)
     );
     
     

@@ -26,7 +26,8 @@ module dlatch(
     output reg Q,
     output NQ
     );
-    always@(D or E) begin
+    
+    always @(D, E) begin
         if(E)
             Q <= D;
     end

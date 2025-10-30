@@ -23,12 +23,12 @@
 module byte_mem(
     input [7:0] data,
     input en,
-    output [7:0] mem
+    output reg [7:0] mem
     );
-    dlatch latch(
-    .D(data),
-    .E(en),
-    .Q(mem),
-    .NQ()
-    );
+    
+    always @(data, en) begin
+        if(en)
+            mem <= data;
+    end
+    
 endmodule
